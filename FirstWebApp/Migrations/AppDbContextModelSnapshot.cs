@@ -45,7 +45,7 @@ namespace FirstWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("items");
                 });
 #pragma warning restore 612, 618
         }

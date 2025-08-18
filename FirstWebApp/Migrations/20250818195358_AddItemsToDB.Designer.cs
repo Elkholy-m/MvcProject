@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirstWebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250818163908_AddItemToDB")]
-    partial class AddItemToDB
+    [Migration("20250818195358_AddItemsToDB")]
+    partial class AddItemsToDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ namespace FirstWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("items");
                 });
 #pragma warning restore 612, 618
         }

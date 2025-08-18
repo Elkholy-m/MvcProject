@@ -13,5 +13,6 @@ namespace FirstWebApp.Data
             modelBuilder.Entity<Item>().Property(x => x.Price).IsRequired();
             modelBuilder.Entity<Item>().Property(x => x.Created).HasDefaultValueSql("GETDATE()");
         }
+        public DbSet<Item> items { get; set; }
     }
 }
