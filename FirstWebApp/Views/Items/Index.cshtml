@@ -34,11 +34,11 @@
                     <td scope="row">@item.Price</td>
                     <td scope="row">@item.Created</td>
                     <td>
-                        <a asp-controller="" asp-action="" class="btn btn-sm btn-success">
+                        <a asp-controller="Items" asp-action="Edit" asp-route-Id ="@item.Id" class="btn btn-sm btn-success">
                             <i class="bi bi-pencil"></i>
                         </a>
                         &nbsp;
-                        <a asp-controller="" asp-action="" class="btn btn-sm btn-danger">
+                        <a asp-controller="Items" asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-sm btn-danger">
                             <i class="bi bi-trash2"></i>
                         </a>
                     </td>

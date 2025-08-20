@@ -41,6 +41,52 @@ namespace FirstWebApp.Controllers
                 return View(_item);
             }
         }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+                return NotFound();
+            var _item = _dbContext.items.FirstOrDefault(x => x.Id == id);
+            if (_item == null)
+                return NotFound();
+            return View(_item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Item _item)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.items.Update(_item);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(_item);
+            }
+        }
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+                return NotFound();
+            var _item = _dbContext.items.FirstOrDefault(x => x.Id == id);
+            if (_item == null)
+                return NotFound();
+            return View(_item);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteItem(int? id)
+        {
+            var _item = _dbContext.items.Find(id);
+            if (_item == null)
+                return NotFound();
+            _dbContext.items.Remove(_item);
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
         public IActionResult Error()
         {
             return View(new ErrorViewModel {  RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
