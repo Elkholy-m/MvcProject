@@ -21,11 +21,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="CategoryId" class="mb-2"></label>
-            <select asp-for="CategoryId" class="form-control">
-                <option value="0">Select Category</option>
-                <option value="1">Computer</option>
-                <option value="2">Mobile Phone</option>
-                <option value="3">Electric Machiens</option>
+            <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.CategoriesList">
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
