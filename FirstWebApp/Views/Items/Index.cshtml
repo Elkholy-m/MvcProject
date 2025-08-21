@@ -3,10 +3,7 @@
     ViewData["Title"] = "Index";
 }
 <div class="container p-3">
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <h2 style="color:crimson">@TempData["SuccessMessage"]</h2>
-    }
+    <partial name="_Notification" />
     <div class="row pt-4">
         <div class="col-6">
             <h2 class="text-primary">Items View</h2>
@@ -25,7 +22,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Creation Date</th>
-                <th scope="col">Category Id</th>
+                <th scope="col">Category</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -37,7 +34,7 @@
                     <td scope="row">@item.Name</td>
                     <td scope="row">@item.Price</td>
                     <td scope="row">@item.Created</td>
-                    <td scope="row">@item.CategoryId</td>
+                    <td scope="row">@item.Category?.Name</td>
                     <td>
                         <a asp-controller="Items" asp-action="Edit" asp-route-Id ="@item.Id" class="btn btn-sm btn-success">
                             <i class="bi bi-pencil"></i>

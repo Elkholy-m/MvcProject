@@ -3,6 +3,7 @@ using FirstWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace FirstWebApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace FirstWebApp.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Item> _items = _dbContext.items.ToList();
+            IEnumerable<Item> _items = _dbContext.items.Include(x => x.Category).ToList();
             return View(_items);
         }
         [HttpGet]
