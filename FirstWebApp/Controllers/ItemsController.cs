@@ -34,6 +34,7 @@ namespace FirstWebApp.Controllers
             {
                 _dbContext.items.Add(_item);
                 _dbContext.SaveChanges();
+                TempData["SuccessMessage"] = $"{_item.Name} Added Successfully";
                  return RedirectToAction("Index");
             }
             else
@@ -59,6 +60,7 @@ namespace FirstWebApp.Controllers
             {
                 _dbContext.items.Update(_item);
                 _dbContext.SaveChanges();
+                TempData["SuccessMessage"] = $"{_item.Name} Updated Successfully";
                 return RedirectToAction("Index");
             }
             else
@@ -85,6 +87,7 @@ namespace FirstWebApp.Controllers
                 return NotFound();
             _dbContext.items.Remove(_item);
             _dbContext.SaveChanges();
+            TempData["SuccessMessage"] = $"{_item.Name} Deleted Successfully";
             return RedirectToAction("Index");
         }
         public IActionResult Error()

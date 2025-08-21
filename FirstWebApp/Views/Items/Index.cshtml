@@ -3,7 +3,10 @@
     ViewData["Title"] = "Index";
 }
 <div class="container p-3">
-
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <h2 style="color:crimson">@TempData["SuccessMessage"]</h2>
+    }
     <div class="row pt-4">
         <div class="col-6">
             <h2 class="text-primary">Items View</h2>
