@@ -16,5 +16,8 @@ namespace FirstWebApp.Models
         [Range(10, 1000, ErrorMessage = "{0} must be between {1} and {2}")]
         public decimal Price { get; set; }
         public DateTime Created {  get; set; } = DateTime.Now;
+        [Required]
+        [DisplayName("The Category")]
+        public int CategoryId { get; set; }
     }
 }

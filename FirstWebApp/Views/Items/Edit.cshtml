@@ -19,6 +19,18 @@
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="mb-2"></label>
+            <select asp-for="CategoryId" class="form-control">
+                <option value="0">Select Category</option>
+                <option value="1">Computer</option>
+                <option value="2">Mobile Phone</option>
+                <option value="3">Electric Machiens</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+        <br />
+        <hr />
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
         <a asp-action="Index" asp-controller="Items" class="btn btn-primary m-1" style="width:150px">Back</a>
     </div>
