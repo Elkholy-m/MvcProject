@@ -1,6 +1,9 @@
-﻿using FirstWebApp.Models;
+﻿using FirstWebApp.Areas.Employees.Models;
+using FirstWebApp.Models;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 
 namespace FirstWebApp.Data
 {
@@ -27,8 +30,14 @@ namespace FirstWebApp.Data
                     new Category { Id = 3, Name = "Mobile Phone" },
                     new Category { Id = 4, Name = "Electric Machine" }
                 );
+
+            // Employee Entity
+            modelBuilder.Entity<Employee>().HasKey(x => x.Id);
+            modelBuilder.Entity<Employee>().Property(x => x.EmployeeName).IsRequired();
+            modelBuilder.Entity<Employee>().Property(x => x.EmployeeEmail).IsRequired();
         }
         public DbSet<Item> items { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

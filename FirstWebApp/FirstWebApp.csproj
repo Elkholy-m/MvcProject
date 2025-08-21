@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Employees\Data\" />
-    <Folder Include="Areas\Employees\Models\" />
   </ItemGroup>
 
 </Project>
