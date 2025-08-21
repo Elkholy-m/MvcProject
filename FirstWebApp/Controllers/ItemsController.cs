@@ -15,16 +15,9 @@ namespace FirstWebApp.Controllers
             _dbContext = dbContext;
         }
 
-        public void CreateViewBag(int selectedId = 0)
+        public void CreateViewBag(int selectedId = 1)
         {
-            var categories = new List<Category>
-            {
-                new Category {Id = 0, Name ="Select Category"},
-                new Category {Id = 1, Name ="Computer"},
-                new Category {Id = 2, Name ="Mobile Phone"},
-                new Category {Id = 3, Name ="Electric Machine"},
-            };
-            SelectList selectList = new SelectList(categories, "Id", "Name", selectedId);
+            SelectList selectList = new SelectList(_dbContext.Categories.ToList(), "Id", "Name", selectedId);
             ViewBag.CategoriesList = selectList;
         }
         public IActionResult Index()
@@ -65,7 +58,7 @@ namespace FirstWebApp.Controllers
             var _item = _dbContext.items.FirstOrDefault(x => x.Id == id);
             if (_item == null)
                 return NotFound();
-            CreateViewBag();
+            CreateViewBag(_item.CategoryId);
             return View(_item);
         }
         [HttpPost]
@@ -92,7 +85,7 @@ namespace FirstWebApp.Controllers
             var _item = _dbContext.items.FirstOrDefault(x => x.Id == id);
             if (_item == null)
                 return NotFound();
-            CreateViewBag();
+            CreateViewBag(_item.CategoryId);
             return View(_item);
         }
         [HttpPost, ActionName("Delete")]
