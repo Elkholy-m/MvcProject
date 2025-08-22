@@ -12,9 +12,14 @@ namespace FirstWebApp.Controllers
         {
             _repository = repository;
         }
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    return View(_repository.FindAll());
+        //}
+
+        public async Task<IActionResult> Index()
         {
-            return View(_repository.FindAll());
+            return View(await _repository.FindAllAsync());
         }
     }
 }
