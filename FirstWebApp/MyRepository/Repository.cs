@@ -1,6 +1,7 @@
 ﻿using FirstWebApp.Data;
 using FirstWebApp.MyRepository.Base;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FirstWebApp.MyRepository
 {
@@ -31,6 +32,16 @@ namespace FirstWebApp.MyRepository
         public async Task<T> FindByIdAsync(int id)
         {
             return await context.Set<T>().FindAsync(id) ?? throw new Exception("Entity Not Found");
+        }
+
+        public T SelectOne(Expression<Func<T, bool>> predicate)
+        {
+            return context.Set<T>().FirstOrDefault(predicate) ?? throw new Exception("Entity Not Found");
+        }
+
+        public async Task<T> SelectOneAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await context.Set<T>().FirstOrDefaultAsync(predicate) ?? throw new Exception("Entity Not Found");
         }
     }
 }

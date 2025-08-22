@@ -19,6 +19,8 @@ namespace FirstWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var cat1 = _repository.SelectOne(x => x.Name == "Computer");
+            var cat2 = await _repository.SelectOneAsync(x => x.Id == 4);
             return View(await _repository.FindAllAsync());
         }
     }
