@@ -19,9 +19,34 @@ namespace FirstWebApp.MyRepository
             return context.Set<T>().ToList();
         }
 
+        public IEnumerable<T> FindAll(params string[] eagers)
+        {
+            IQueryable<T> query = context.Set<T>();
+            if (eagers.Length > 0)
+            {
+                foreach (string eager in eagers)
+                {
+                    // Eiger loading to fill the navigation property with values
+                    query = query.Include(eager);
+                }
+            }
+            return query.ToList();
+        }
+
         public async Task<IEnumerable<T>> FindAllAsync()
         {
             return await context.Set<T>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> FindAllAsync(params string[] eagers)
+        {
+            IQueryable<T> query = context.Set<T>();
+            if (eagers.Length > 0)
+            {
+                foreach (var eager in eagers)
+                    query = query.Include(eager);
+            }
+            return await query.ToListAsync();
         }
 
         public T FindById(int id)
