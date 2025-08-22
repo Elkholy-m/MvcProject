@@ -4,25 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FirstWebApp.Controllers
 {
-    public class CategoriesController :Controller
+    public class CategoriesController : Controller
     {
         //public IActionResult Index()
         //{
         //    return View(_repository.FindAll());
         //}
-        private readonly IRepository<Category> _repository;
+        //private readonly IRepository<Category> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoriesController(IRepository<Category> repository)
+        public CategoriesController(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IActionResult> Index()
         {
             // Test Eager Loading
-            var cat = _repository.FindAll("Items");
-            var cat2 = await _repository.FindAllAsync("Items");
-            return View(await _repository.FindAllAsync());
+            var cat = _unitOfWork.Categories.FindAll("Items");
+            var cat2 = await _unitOfWork.Categories.FindAllAsync("Items");
+            return View(await _unitOfWork.Categories.FindAllAsync());
         }
 
         [HttpGet]
@@ -36,7 +37,7 @@ namespace FirstWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repository.AddOne(category);
+                _unitOfWork.Categories.AddOne(category);
                 TempData["SuccessMessage"] = $"{category.Name} Added Successfully";
                 return RedirectToAction("Index");
             }
@@ -48,7 +49,7 @@ namespace FirstWebApp.Controllers
         {
             if (id == 0 || id == null)
                 return NotFound();
-            var category = _repository.FindById(id.Value);
+            var category = _unitOfWork.Categories.FindById(id.Value);
             if (category == null)
                 return NotFound();
             return View(category);
@@ -60,7 +61,7 @@ namespace FirstWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repository.UpdateOne(category);
+                _unitOfWork.Categories.UpdateOne(category);
                 TempData["SuccessMessage"] = $"{category.Name} Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -72,7 +73,7 @@ namespace FirstWebApp.Controllers
         {
             if (id == 0 || id == null)
                 return NotFound();
-            var category = _repository.FindById(id.Value);
+            var category = _unitOfWork.Categories.FindById(id.Value);
             if (category == null)
                 return NotFound();
             return View(category);
@@ -84,7 +85,7 @@ namespace FirstWebApp.Controllers
         {
             if (category == null)
                 return NotFound();
-            _repository.DeleteOne(category);
+            _unitOfWork.Categories.DeleteOne(category);
             TempData["SuccessMessage"] = $"{category.Name} Deleted Successfully";
             return RedirectToAction("Index");
         }
