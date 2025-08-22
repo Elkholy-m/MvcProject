@@ -16,5 +16,13 @@ namespace FirstWebApp.MyRepository.Base
         Task<IEnumerable<T>> FindAllAsync();
         Task<IEnumerable<T>> FindAllAsync(params string[] eagers);
         Task<T> SelectOneAsync(Expression<Func<T, bool>> predicate);
+
+        // CRUD Operations Mehtods
+        void AddOne(T item);
+        void UpdateOne(T item);
+        void DeleteOne(T item);
+        void AddMany(IEnumerable<T> itemList);
+        void UpdateMany(IEnumerable<T> itemList);
+        void DeleteMany(IEnumerable<T> itemList);
     }
 }

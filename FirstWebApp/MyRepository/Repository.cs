@@ -1,4 +1,5 @@
 ﻿using FirstWebApp.Data;
+using FirstWebApp.Models;
 using FirstWebApp.MyRepository.Base;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -12,6 +13,30 @@ namespace FirstWebApp.MyRepository
         public Repository(AppDbContext context)
         {
             this.context = context;
+        }
+
+        public void AddMany(IEnumerable<T> itemList)
+        {
+            context.Set<T>().AddRange(itemList);
+            context.SaveChanges();
+        }
+
+        public void AddOne(T item)
+        {
+            context.Set<T>().Add(item);
+            context.SaveChanges();
+        }
+
+        public void DeleteMany(IEnumerable<T> itemList)
+        {
+            context.Set<T>().RemoveRange(itemList);
+            context.SaveChanges();
+        }
+
+        public void DeleteOne(T item)
+        {
+            context.Set<T>().Remove(item);
+            context.SaveChanges();
         }
 
         public IEnumerable<T> FindAll()
@@ -67,6 +92,18 @@ namespace FirstWebApp.MyRepository
         public async Task<T> SelectOneAsync(Expression<Func<T, bool>> predicate)
         {
             return await context.Set<T>().FirstOrDefaultAsync(predicate) ?? throw new Exception("Entity Not Found");
+        }
+
+        public void UpdateMany(IEnumerable<T> itemList)
+        {
+            context.Set<T>().UpdateRange(itemList);
+            context.SaveChanges();
+        }
+
+        public void UpdateOne(T item)
+        {
+            context.Set<T>().Update(item);
+            context.SaveChanges();
         }
     }
 }

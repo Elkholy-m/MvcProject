@@ -4,6 +4,9 @@
 }
 <div class="container p-3">
     <div class="row pt-4">
+        <div>
+            <partial name="_Notification" />
+        </div>
         <div class="col-6">
             <h2 class="text-primary">Categories</h2>
         </div>
@@ -30,7 +33,7 @@
                     <td scope="row">@item.Id</td>
                     <td scope="row">@item.Name</td>
                     <td>
-                        <a asp-controller="Categories" asp-action="Edit" asp-route-Id="@item.Id" class="btn btn-sm btn-success">
+                        <a asp-controller="Categories" asp-action="Update" asp-route-Id="@item.Id" class="btn btn-sm btn-success">
                             <i class="bi bi-pencil"></i>
                         </a>
                         &nbsp;
