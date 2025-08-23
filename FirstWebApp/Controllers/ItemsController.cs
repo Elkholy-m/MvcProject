@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.Xml;
 
 namespace FirstWebApp.Controllers
 {
@@ -49,7 +50,10 @@ namespace FirstWebApp.Controllers
                     string imageDirectory = Path.Combine(_host.WebRootPath, "images");
                     fileName = _item.ClientFile.FileName;
                     string fullPath = Path.Combine(imageDirectory, fileName);
-                    _item.ClientFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+                    using (FileStream fs = new FileStream(fullPath, FileMode.Create))
+                    {
+                        _item.ClientFile.CopyTo(fs);
+                    }
                     _item.ImgPath = fileName;
                 }
                 _dbContext.items.Add(_item);
@@ -80,6 +84,23 @@ namespace FirstWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Delete Old Image if it exist
+                if (_item.ImgPath != null)
+                {
+                    string oldPath = Path.Combine(_host.WebRootPath, "images", _item.ImgPath);
+                    var file = new FileInfo(oldPath);
+                    file.Delete();
+                }
+                if (_item.ClientFile != null)
+                {
+                    // Add New Image
+                    using (FileStream fs = new FileStream(Path.Combine(_host.WebRootPath, "images", _item.ClientFile.FileName), FileMode.Create))
+                    {
+                        // now other processes can read/write while you read
+                        _item.ClientFile.CopyTo(fs);
+                        _item.ImgPath = _item.ClientFile.FileName;
+                    }
+                }
                 _dbContext.items.Update(_item);
                 _dbContext.SaveChanges();
                 TempData["SuccessMessage"] = $"{_item.Name} Updated Successfully";
@@ -108,6 +129,11 @@ namespace FirstWebApp.Controllers
             var _item = _dbContext.items.Find(id);
             if (_item == null)
                 return NotFound();
+            if (_item.ImgPath != null)
+            {
+                var file = new FileInfo(Path.Combine(_host.WebRootPath, "images", _item.ImgPath));
+                file.Delete();
+            }
             _dbContext.items.Remove(_item);
             _dbContext.SaveChanges();
             TempData["SuccessMessage"] = $"{_item.Name} Deleted Successfully";
