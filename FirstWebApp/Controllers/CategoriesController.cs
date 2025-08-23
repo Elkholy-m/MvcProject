@@ -38,6 +38,7 @@ namespace FirstWebApp.Controllers
             if (ModelState.IsValid)
             {
                 _unitOfWork.Categories.AddOne(category);
+                _unitOfWork.Commit();
                 TempData["SuccessMessage"] = $"{category.Name} Added Successfully";
                 return RedirectToAction("Index");
             }
@@ -62,6 +63,7 @@ namespace FirstWebApp.Controllers
             if (ModelState.IsValid)
             {
                 _unitOfWork.Categories.UpdateOne(category);
+                _unitOfWork.Commit();
                 TempData["SuccessMessage"] = $"{category.Name} Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -81,11 +83,13 @@ namespace FirstWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
         public IActionResult Delete(Category category)
         {
             if (category == null)
                 return NotFound();
             _unitOfWork.Categories.DeleteOne(category);
+            _unitOfWork.Commit();
             TempData["SuccessMessage"] = $"{category.Name} Deleted Successfully";
             return RedirectToAction("Index");
         }

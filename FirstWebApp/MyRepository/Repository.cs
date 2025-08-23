@@ -15,29 +15,13 @@ namespace FirstWebApp.MyRepository
             this.context = context;
         }
 
-        public void AddMany(IEnumerable<T> itemList)
-        {
-            context.Set<T>().AddRange(itemList);
-            context.SaveChanges();
-        }
+        public void AddMany(IEnumerable<T> itemList) => context.Set<T>().AddRange(itemList);
+        public void AddOne(T item) => context.Set<T>().Add(item);
+        public void DeleteMany(IEnumerable<T> itemList) => context.Set<T>().RemoveRange(itemList);
+        public void DeleteOne(T item) => context.Set<T>().Remove(item);
+        public void UpdateMany(IEnumerable<T> itemList) => context.Set<T>().UpdateRange(itemList);
+        public void UpdateOne(T item) => context.Set<T>().Update(item);
 
-        public void AddOne(T item)
-        {
-            context.Set<T>().Add(item);
-            context.SaveChanges();
-        }
-
-        public void DeleteMany(IEnumerable<T> itemList)
-        {
-            context.Set<T>().RemoveRange(itemList);
-            context.SaveChanges();
-        }
-
-        public void DeleteOne(T item)
-        {
-            context.Set<T>().Remove(item);
-            context.SaveChanges();
-        }
 
         public IEnumerable<T> FindAll()
         {
@@ -92,18 +76,6 @@ namespace FirstWebApp.MyRepository
         public async Task<T> SelectOneAsync(Expression<Func<T, bool>> predicate)
         {
             return await context.Set<T>().FirstOrDefaultAsync(predicate) ?? throw new Exception("Entity Not Found");
-        }
-
-        public void UpdateMany(IEnumerable<T> itemList)
-        {
-            context.Set<T>().UpdateRange(itemList);
-            context.SaveChanges();
-        }
-
-        public void UpdateOne(T item)
-        {
-            context.Set<T>().Update(item);
-            context.SaveChanges();
         }
     }
 }

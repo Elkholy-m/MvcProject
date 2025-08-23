@@ -17,11 +17,11 @@ namespace FirstWebApp.MyRepository
             Categories = new Repository<Category>(context);
             Items = new Repository<Item>(context);
         }
-        public IRepository<Employee> Employees { get; set; }
+        public IRepository<Employee> Employees { get; private set; }
 
-        public IRepository<Category> Categories { get; set; }
+        public IRepository<Category> Categories { get; private set; }
 
-        public IRepository<Item> Items { get; set; }
+        public IRepository<Item> Items { get; private set; }
 
         public int Commit() => _context.SaveChanges();
 
