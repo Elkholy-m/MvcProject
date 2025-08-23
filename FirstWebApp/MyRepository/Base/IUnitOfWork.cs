@@ -5,10 +5,11 @@ namespace FirstWebApp.MyRepository.Base
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Employee> Employees { get; }
+        IEmployeeRepository Employees { get; }
         IRepository<Category> Categories { get; }
         IRepository<Item> Items { get; }
         int Commit();
+        public Task<int> CommitAsync();
 
     }
 }

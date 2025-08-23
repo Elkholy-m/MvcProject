@@ -13,18 +13,16 @@ namespace FirstWebApp.MyRepository
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            Employees = new Repository<Employee>(context);
+            Employees = new EmployeeRepository(context);
             Categories = new Repository<Category>(context);
             Items = new Repository<Item>(context);
         }
-        public IRepository<Employee> Employees { get; private set; }
 
         public IRepository<Category> Categories { get; private set; }
-
         public IRepository<Item> Items { get; private set; }
-
+        public IEmployeeRepository Employees { get; private set; }
         public int Commit() => _context.SaveChanges();
-
+        public Task<int> CommitAsync() => _context.SaveChangesAsync();
         public void Dispose() => _context.Dispose();
     }
 }

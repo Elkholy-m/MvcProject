@@ -7,23 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FirstWebApp.Areas.Employees.Models;
 using FirstWebApp.Data;
+using FirstWebApp.MyRepository.Base;
 
 namespace FirstWebApp.Areas.Employees.Controllers
 {
     [Area("Employees")]
     public class EmployeesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeesController(AppDbContext context)
+        public EmployeesController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: Employees/Employees
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            return View(await _unitOfWork.Employees.FindAllAsync());
         }
 
         // GET: Employees/Employees/Details/5
@@ -34,8 +35,7 @@ namespace FirstWebApp.Areas.Employees.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _unitOfWork.Employees.SelectOneAsync(x => x.Id == id);
             if (employee == null)
             {
                 return NotFound();
@@ -59,8 +59,8 @@ namespace FirstWebApp.Areas.Employees.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Employees.AddOne(employee);
+                await _unitOfWork.CommitAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -74,7 +74,7 @@ namespace FirstWebApp.Areas.Employees.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _unitOfWork.Employees.FindByIdAsync(id.Value);
             if (employee == null)
             {
                 return NotFound();
@@ -98,8 +98,8 @@ namespace FirstWebApp.Areas.Employees.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Employees.UpdateOne(employee);
+                    await _unitOfWork.CommitAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,8 +125,7 @@ namespace FirstWebApp.Areas.Employees.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _unitOfWork.Employees.SelectOneAsync(x => x.Id == id);
             if (employee == null)
             {
                 return NotFound();
@@ -140,19 +139,19 @@ namespace FirstWebApp.Areas.Employees.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _unitOfWork.Employees.FindByIdAsync(id);
             if (employee != null)
             {
-                _context.Employees.Remove(employee);
+                _unitOfWork.Employees.DeleteOne(employee);
             }
 
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmployeeExists(int id)
         {
-            return _context.Employees.Any(e => e.Id == id);
+            return _unitOfWork.Employees.FindAll().Any(e => e.Id == id);
         }
     }
 }
