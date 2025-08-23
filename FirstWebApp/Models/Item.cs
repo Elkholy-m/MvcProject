@@ -16,6 +16,9 @@ namespace FirstWebApp.Models
         [DisplayName("The Price")]
         [Range(10, 1000, ErrorMessage = "{0} must be between {1} and {2}")]
         public decimal Price { get; set; }
+        public string? ImgPath { get; set; }
+        [NotMapped]
+        public IFormFile? ClientFile {  get; set; }
         public DateTime Created {  get; set; } = DateTime.Now;
         [Required]
         [DisplayName("The Category")]

@@ -10,10 +10,12 @@ namespace FirstWebApp.Controllers
     public class ItemsController : Controller
     {
         private readonly AppDbContext _dbContext;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _host;
 
-        public ItemsController(AppDbContext dbContext)
+        public ItemsController(AppDbContext dbContext, Microsoft.AspNetCore.Hosting.IHostingEnvironment host)
         {
             _dbContext = dbContext;
+            _host = host;
         }
 
         public void CreateViewBag(int selectedId = 1)
@@ -41,6 +43,15 @@ namespace FirstWebApp.Controllers
             }
             if (ModelState.IsValid)
             {
+                string fileName = string.Empty;
+                if (_item.ClientFile != null)
+                {
+                    string imageDirectory = Path.Combine(_host.WebRootPath, "images");
+                    fileName = _item.ClientFile.FileName;
+                    string fullPath = Path.Combine(imageDirectory, fileName);
+                    _item.ClientFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+                    _item.ImgPath = fileName;
+                }
                 _dbContext.items.Add(_item);
                 _dbContext.SaveChanges();
                 TempData["SuccessMessage"] = $"{_item.Name} Added Successfully";
@@ -48,6 +59,7 @@ namespace FirstWebApp.Controllers
             }
             else
             {
+                CreateViewBag(_item.CategoryId);
                 return View(_item);
             }
         }
