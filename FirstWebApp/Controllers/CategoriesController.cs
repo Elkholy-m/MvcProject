@@ -37,6 +37,14 @@ namespace FirstWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (category.ClientFile != null)
+                {
+                    using (var mStrm = new MemoryStream())
+                    {
+                        category.ClientFile.CopyTo(mStrm);
+                        category.ImgaeDB = mStrm.ToArray();
+                    }
+                }
                 _unitOfWork.Categories.AddOne(category);
                 _unitOfWork.Commit();
                 TempData["SuccessMessage"] = $"{category.Name} Added Successfully";
@@ -62,6 +70,14 @@ namespace FirstWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (category.ClientFile != null)
+                {
+                    using (var mStrm = new MemoryStream())
+                    {
+                        category.ClientFile.CopyTo(mStrm);
+                        category.ImgaeDB = mStrm.ToArray();
+                    }
+                }
                 _unitOfWork.Categories.UpdateOne(category);
                 _unitOfWork.Commit();
                 TempData["SuccessMessage"] = $"{category.Name} Updated Successfully";

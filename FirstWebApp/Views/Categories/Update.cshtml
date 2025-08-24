@@ -15,6 +15,10 @@
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
+        <div>
+            <input type="file" asp-for="ClientFile" onchange="fileLoad(event)" />
+            <img id="myImg" src="@Model.ImageSrc" height="200" />
+        </div>
         <br />
         <hr />
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
@@ -23,5 +27,15 @@
 </form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>
+    <script>
+        var fileLoad = function (event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var myImg = document.getElementById('myImg');
+                myImg.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 }
 
