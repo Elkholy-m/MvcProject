@@ -33,7 +33,14 @@
                     <td scope="row">@item.Id</td>
                     <td scope="row">@item.Name</td>
                     <td>
-                        <img class="img-thumbnail" style="width:48px" src ="@item.ImageSrc" />
+                        @if (!string.IsNullOrEmpty(item.ImageSrc))
+                        {
+                            <img id="myImg" class="img-thumbnail" style="width:48px" src ="@item.ImageSrc" />
+                        }
+                        else
+                        {
+                            <img id="myImg" class="img-thumbnail" style="width:48px" src="~/images/404-error.jpg" />
+                        }
                     </td>
                     <td>
                         <a asp-controller="Categories" asp-action="Update" asp-route-Id="@item.Id" class="btn btn-sm btn-success">

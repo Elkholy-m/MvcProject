@@ -61,6 +61,7 @@ namespace FirstWebApp.Controllers
             var category = _unitOfWork.Categories.FindById(id.Value);
             if (category == null)
                 return NotFound();
+            ViewBag.ImgDB = category.ImgaeDB;
             return View(category);
         }
 
@@ -78,7 +79,11 @@ namespace FirstWebApp.Controllers
                         category.ImgaeDB = mStrm.ToArray();
                     }
                 }
-                _unitOfWork.Categories.UpdateOne(category);
+                else
+                {
+                    //category.ImgaeDB = _unitOfWork.Categories.FindById(category.Id).ImgaeDB;
+                }
+                    _unitOfWork.Categories.UpdateOne(category);
                 _unitOfWork.Commit();
                 TempData["SuccessMessage"] = $"{category.Name} Updated Successfully";
                 return RedirectToAction("Index");

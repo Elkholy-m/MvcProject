@@ -19,6 +19,7 @@ namespace FirstWebApp.Models
         public IFormFile? ClientFile { get; set; }
         public byte[]? ImgaeDB { get; set; }
 
+        private string? _imgSrc;
         [NotMapped]
         public string? ImageSrc
         {
@@ -27,9 +28,14 @@ namespace FirstWebApp.Models
                 if (ImgaeDB != null)
                 {
                     string base64String = Convert.ToBase64String(ImgaeDB);
-                    return "data:image/jpeg;base64," + base64String;
+                    _imgSrc = "data:image/jpeg;base64," + base64String;
+                    return _imgSrc;
                 }
                 return string.Empty;
+            }
+            set
+            {
+                _imgSrc = value;
             }
         }
     }
