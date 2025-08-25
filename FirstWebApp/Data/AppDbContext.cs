@@ -1,13 +1,16 @@
 ﻿using FirstWebApp.Areas.Employees.Models;
 using FirstWebApp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace FirstWebApp.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +38,7 @@ namespace FirstWebApp.Data
             modelBuilder.Entity<Employee>().HasKey(x => x.Id);
             modelBuilder.Entity<Employee>().Property(x => x.EmployeeName).IsRequired();
             modelBuilder.Entity<Employee>().Property(x => x.EmployeeEmail).IsRequired();
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<Item> items { get; set; }
         public DbSet<Category> Categories { get; set; }
