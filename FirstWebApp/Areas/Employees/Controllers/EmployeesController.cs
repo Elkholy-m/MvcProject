@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using FirstWebApp.Areas.Employees.Models;
 using FirstWebApp.Data;
 using FirstWebApp.MyRepository.Base;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FirstWebApp.Areas.Employees.Controllers
 {
-    [Area("Employees")]
+    [Area("Employees"), Authorize]
     public class EmployeesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

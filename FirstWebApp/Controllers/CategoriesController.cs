@@ -1,9 +1,11 @@
 ﻿using FirstWebApp.Models;
 using FirstWebApp.MyRepository.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FirstWebApp.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         //public IActionResult Index()

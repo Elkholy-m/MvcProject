@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.Xml;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FirstWebApp.Controllers
 {
+    [Authorize]
     public class ItemsController : Controller
     {
         private readonly AppDbContext _dbContext;
