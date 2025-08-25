@@ -38,6 +38,27 @@ namespace FirstWebApp.Data
             modelBuilder.Entity<Employee>().HasKey(x => x.Id);
             modelBuilder.Entity<Employee>().Property(x => x.EmployeeName).IsRequired();
             modelBuilder.Entity<Employee>().Property(x => x.EmployeeEmail).IsRequired();
+
+            // Role Entity
+            modelBuilder.Entity<IdentityRole>().HasData(
+                    new IdentityRole
+                    {
+                        Id =  Guid.Parse("11111111-1111-1111-1111-111111111111").ToString(), // ✅ Hardcoded GUID
+                        Name = "Admin",
+                        NormalizedName = "name",
+                        ConcurrencyStamp =  Guid.Parse("11111111-1111-1111-1111-111111111111").ToString()
+                    },
+                    new IdentityRole
+                    {
+                        Id = Guid.Parse("11111111-1111-1111-1111-111111111112").ToString(),
+                        Name = "User",
+                        NormalizedName = "user",
+                        ConcurrencyStamp =  Guid.Parse("11111111-1111-1111-1111-111111111112").ToString(),
+                    }
+                );
+
+
+            // this will fix the invalid operation error
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Item> items { get; set; }

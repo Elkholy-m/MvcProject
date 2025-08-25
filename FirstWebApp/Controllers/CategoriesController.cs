@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FirstWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = clsRoles.adminRole)]
     public class CategoriesController : Controller
     {
         //public IActionResult Index()
