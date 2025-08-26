@@ -45,7 +45,7 @@ namespace FirstWebApp.Data
                     {
                         Id =  Guid.Parse("11111111-1111-1111-1111-111111111111").ToString(), // ✅ Hardcoded GUID
                         Name = "Admin",
-                        NormalizedName = "name",
+                        NormalizedName = "admin",
                         ConcurrencyStamp =  Guid.Parse("11111111-1111-1111-1111-111111111111").ToString()
                     },
                     new IdentityRole
